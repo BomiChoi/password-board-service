@@ -12,7 +12,6 @@ pymysql.install_as_MySQLdb()
 SECRET_KEY = SECRET_KEY
 
 DATABASES = DATABASES
-#
 
 DEBUG = True
 
@@ -45,16 +44,26 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',    		
 )
 
-INSTALLED_APPS = [
+# 앱 목록
+LOCAL_APPS = [
+    'apps.board.apps.BoardConfig'
+]
+
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
+
+THIRD_PARTY_APPS = [
     'rest_framework',
     'corsheaders',
 ]
+
+INSTALLED_APPS = LOCAL_APPS + THIRD_PARTY_APPS + DJANGO_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
