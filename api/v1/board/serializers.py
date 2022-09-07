@@ -7,6 +7,7 @@ from apps.board.models import Board
 
 class BoardSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=6, max_length=20, style={'input_type': 'password'})
+    weather = serializers.CharField(read_only=True, max_length=20, required=False, allow_null=True)
 
     class Meta:
         model = Board
@@ -17,6 +18,7 @@ class BoardSerializer(serializers.ModelSerializer):
             'password',
             'created_at',
             'updated_at',
+            'weather',
         )
 
     def validate(self, attrs):

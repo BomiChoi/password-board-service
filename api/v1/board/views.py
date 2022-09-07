@@ -1,6 +1,9 @@
 import bcrypt
+import requests
+from django.conf import settings
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import ValidationError
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
@@ -16,6 +19,19 @@ class BoardView(ListCreateAPIView):
     filter_backends = [OrderingFilter]
     ordering = ['-created_at']
     pagination_class = BoardPagination
+
+    def perform_create(self, serializer):
+        """ 현재 ip 기준 날씨 정보를 받아와서 시리얼라이저에 저장합니다. """
+
+        url = 'https://api.weatherapi.com/v1/current.json'
+        api_key = settings.API_KEY
+        response = requests.get(url, params={'key': api_key, 'q': 'auto:ip'})
+        if not response.ok:
+            raise ValidationError('WEATHER API ERROR')
+
+        data = response.json()
+        weather_txt = data['current']['condition']['text']
+        serializer.save(weather=weather_txt)
 
 
 class BoardDetailView(RetrieveUpdateDestroyAPIView):

@@ -1,8 +1,9 @@
-import pymysql 
 import datetime
 from pathlib import Path
 
-from my_settings import SECRET_KEY, DATABASES
+import pymysql
+
+from my_settings import SECRET_KEY, DATABASES, API_KEY
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -13,6 +14,8 @@ SECRET_KEY = SECRET_KEY
 
 DATABASES = DATABASES
 
+API_KEY = API_KEY
+
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
@@ -22,7 +25,7 @@ APPEND_SLASH = False
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOW_CREDENTIALS = True
-    
+
 CORS_ALLOW_METHODS = (
     'DELETE',
     'GET',
@@ -41,7 +44,7 @@ CORS_ALLOW_HEADERS = (
     'origin',
     'user-agent',
     'x-csrftoken',
-    'x-requested-with',    		
+    'x-requested-with',
 )
 
 # 앱 목록

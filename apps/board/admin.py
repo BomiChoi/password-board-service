@@ -1,5 +1,7 @@
 from django.contrib import admin
+
 from .models import Board
+
 
 @admin.register(Board)
 class BoardAdmin(admin.ModelAdmin):
@@ -7,7 +9,7 @@ class BoardAdmin(admin.ModelAdmin):
         'id',
         'title',
         'content',
-        'password',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'weather',
     )
