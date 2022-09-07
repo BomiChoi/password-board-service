@@ -6,12 +6,16 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.response import Response
 
 from apps.board.models import Board
+from .paginations import BoardPagination
 from .serializers import BoardSerializer
 
 
 class BoardView(ListCreateAPIView):
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
+    filter_backends = [OrderingFilter]
+    ordering = ['-created_at']
+    pagination_class = BoardPagination
 
 
 class BoardDetailView(RetrieveUpdateDestroyAPIView):
@@ -20,7 +24,7 @@ class BoardDetailView(RetrieveUpdateDestroyAPIView):
 
     def destroy(self, request, *args, **kwargs):
         """ 비밀번호가 일치하는지 확인한 후 게시물을 삭제합니다. """
-        
+
         post = get_object_or_404(Board, id=kwargs['pk'])
         input_pw = request.data['password'].encode('utf-8')
         pw = post.password.encode('utf-8')
